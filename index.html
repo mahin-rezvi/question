@@ -1,445 +1,407 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>এসএসসি সাধারণ গণিত মডেল টেস্ট - প্রশ্নপত্র</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Math Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @page {
-            size: A4;
-            margin: 15mm 12mm;
-            @bottom-right {
-                content: "পৃষ্ঠা " counter(page) " / " counter(pages);
-                font-size: 9pt;
-                font-family: 'Noto Sans Bengali', 'Siyam Rupali', 'Kalpurush', sans-serif;
-                color: #64748b;
-            }
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #EEF2FF;
+            --bg-color: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --success: #10B981;
         }
 
-        *, *::before, *::after {
+        * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            font-family: 'Noto Sans Bengali', 'Siyam Rupali', 'Kalpurush', 'SolaimanLipi', sans-serif;
-            font-size: 10.5pt;
-            line-height: 1.5;
-            color: #1e293b;
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
         }
 
-        /* Header Styling */
-        .exam-header {
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
             text-align: center;
-            border-bottom: 2px solid #1e3a8a;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 2.5rem;
         }
 
-        .institution-name {
-            font-size: 16pt;
-            font-weight: bold;
-            color: #1e3a8a;
-            margin: 0 0 2px 0;
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
         }
 
-        .exam-title {
-            font-size: 13pt;
-            font-weight: bold;
-            color: #0f172a;
-            margin: 0 0 4px 0;
+        header p {
+            color: var(--text-muted);
         }
 
-        .subject-info {
-            font-size: 10pt;
-            color: #475569;
-            margin-bottom: 6px;
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .exam-meta-table {
+        .question-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        /* 1. Modern Radio Cards (Standard MCQ) */
+        .grid-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .radio-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-card:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .radio-card input[type="radio"] {
+            display: none;
+        }
+
+        .radio-card span {
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        /* Highlighting active radio cards via JS class */
+        .radio-card.active {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* 2. Multi-Select Pills (Tags) */
+        .pill-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .pill-checkbox {
+            position: relative;
+        }
+
+        .pill-checkbox input[type="checkbox"] {
+            display: none;
+        }
+
+        .pill-label {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            border-radius: 999px; /* Pill shape */
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .pill-checkbox input[type="checkbox"]:checked + .pill-label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+        }
+
+        /* 3. Toggle Switch (True/False) */
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-color);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--success);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        /* 4. Range Slider */
+        .range-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input[type="range"] {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 6px;
-            font-size: 10pt;
-            font-weight: bold;
+            accent-color: var(--primary);
         }
 
-        .exam-meta-table td {
-            padding: 2px 4px;
-        }
-
-        .instruction-box {
-            background-color: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            padding: 6px 10px;
-            font-size: 9.5pt;
-            color: #334155;
-            margin-bottom: 15px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        /* Section Headings */
-        .section-header {
-            background-color: #1e3a8a;
-            color: #ffffff;
-            padding: 4px 10px;
-            font-size: 11pt;
-            font-weight: bold;
-            border-radius: 3px;
-            margin-top: 15px;
-            margin-bottom: 12px;
-            display: block;
-            page-break-after: avoid;
-        }
-
-        /* MCQ Grid Layout */
-        .mcq-container {
-            width: 100%;
-        }
-
-        .mcq-item {
-            margin-bottom: 10px;
-            page-break-inside: avoid;
-        }
-
-        .mcq-question {
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-
-        .mcq-options {
-            width: 100%;
-            border-collapse: collapse;
-            margin-left: 15px;
-            margin-top: 2px;
-        }
-
-        .mcq-options td {
-            width: 25%;
-            padding: 1px 4px;
-            font-size: 10pt;
-            vertical-align: top;
-        }
-
-        /* Short Questions */
-        .short-q-item {
-            margin-bottom: 8px;
-            page-break-inside: avoid;
-        }
-
-        .short-q-title {
-            font-weight: bold;
-        }
-
-        /* Creative Questions (CQ) */
-        .cq-item {
-            border: 1px solid #e2e8f0;
-            border-left: 4px solid #1e3a8a;
-            background-color: #ffffff;
-            padding: 10px 12px;
-            margin-bottom: 14px;
-            border-radius: 0 4px 4px 0;
-            page-break-inside: avoid;
-        }
-
-        .cq-stem {
-            font-size: 10.5pt;
-            background-color: #f1f5f9;
-            padding: 6px 10px;
-            border-radius: 4px;
-            margin-bottom: 8px;
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.9rem;
             font-weight: 500;
         }
 
-        .cq-questions {
-            margin-left: 5px;
+        /* 5. Modern Text Input */
+        .input-group {
+            position: relative;
+            margin-top: 1rem;
         }
 
-        .cq-sub-q {
-            margin-bottom: 4px;
+        .modern-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--bg-color);
         }
 
-        .math-symbol {
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
+        .modern-input:focus {
+            border-color: var(--primary);
+            background: white;
         }
 
-        .diagram-container {
-            text-align: center;
-            margin: 8px 0;
+        /* Submit Button */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #4338CA;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .grid-options {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Exam Header -->
-    <div class="exam-header">
-        <div class="institution-name">এসএসসি সাধারণ গণিত মডেল টেস্ট</div>
-        <div class="exam-title">অধ্যায়: এক চলকবিশিষ্ট সমীকরণ ও ত্রিকোণমিতিক অনুপাত (প্রশ্নপত্র)</div>
-        <div class="subject-info">বিষয়: সাধারণ গণিত | শ্রেণি: ১০ম / এসএসসি পরীক্ষার্থী</div>
-        
-        <table class="exam-meta-table">
-            <tr>
-                <td style="text-align: left;">সময়: ১ ঘণ্টা ৪৫ মিনিট</td>
-                <td style="text-align: center;">বিষয় কোড: ১০৯</td>
-                <td style="text-align: right;">পূর্ণমান: ৫০</td>
-            </tr>
-        </table>
-    </div>
+<div class="container">
+    <header>
+        <h1>SSC Advanced Mathematics</h1>
+        <p>Interactive Concept Assessment</p>
+    </header>
 
-    <div class="instruction-box">
-        [বিশেষ দ্রষ্টব্য: সকল প্রশ্নের উত্তর পৃথক উত্তরপত্রে প্রদান করতে হবে। ডান পাশের সংখ্যা প্রশ্নের পূর্ণমান জ্ঞাপক।]
-    </div>
+    <!-- Connect form action to FormSubmit or Google Apps Script later -->
+    <form id="modern-quiz">
 
-    <!-- Section 1: MCQs -->
-    <div class="section-header">ক-বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ) [মান: ১০ × ১ = ১০]</div>
-    <div style="font-size: 9.5pt; color: #475569; margin-bottom: 8px;">* সঠিক উত্তরের পাশে টিক (✓) চিহ্ন দাও অথবা সঠিক বর্ণটি খাতায় লেখ।</div>
-
-    <div class="mcq-container">
-        <!-- MCQ 1 -->
-        <div class="mcq-item">
-            <div class="mcq-question">১. 2x + y = 8 এবং x - y = 1 হলে (x, y) এর মান কোনটি?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) (3, 2)</td>
-                    <td>(খ) (2, 3)</td>
-                    <td>(গ) (4, 0)</td>
-                    <td>(ঘ) (1, 6)</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 2 -->
-        <div class="mcq-item">
-            <div class="mcq-question">২. a<sup>x</sup> = b, b<sup>y</sup> = c, c<sup>z</sup> = a হলে xyz এর মান কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) 0</td>
-                    <td>(খ) 1</td>
-                    <td>(গ) abc</td>
-                    <td>(ঘ) -1</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 3 -->
-        <div class="mcq-item">
-            <div class="mcq-question">৩. সমকোণী ত্রিভুজের সূক্ষ্মকোণদ্বয়ের একটি 30° হলে অপরটি কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) 45°</td>
-                    <td>(খ) 60°</td>
-                    <td>(গ) 90°</td>
-                    <td>(ঘ) 120°</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 4 -->
-        <div class="mcq-item">
-            <div class="mcq-question">৪. tan θ = 4/3 হলে sin θ এর মান কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) 3/5</td>
-                    <td>(খ) 4/5</td>
-                    <td>(গ) 5/4</td>
-                    <td>(ঘ) 3/4</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 5 -->
-        <div class="mcq-item">
-            <div class="mcq-question">৫. 1 / (1 - sin<sup>2</sup> A) = কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) sec<sup>2</sup> A</td>
-                    <td>(খ) cos<sup>2</sup> A</td>
-                    <td>(গ) sin<sup>2</sup> A</td>
-                    <td>(ঘ) cosec<sup>2</sup> A</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 6 -->
-        <div class="mcq-item">
-            <div class="mcq-question">৬. sin<sup>2</sup> A = 1/2 হলে cos 2A = কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) 1/√2</td>
-                    <td>(খ) 1/2</td>
-                    <td>(গ) 1</td>
-                    <td>(ঘ) 0</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 7 -->
-        <div class="mcq-item">
-            <div class="mcq-question">৭. ΔABC এর ∠B = 90°, AB = 3 cm, BC = 4 cm হলে sin C এর মান কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) 5/3</td>
-                    <td>(খ) 4/5</td>
-                    <td>(গ) 3/4</td>
-                    <td>(ঘ) 3/5</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 8 -->
-        <div class="mcq-item">
-            <div class="mcq-question">৮. sin θ / √(sin<sup>2</sup> θ + cos<sup>2</sup> θ) = কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) cot θ</td>
-                    <td>(খ) tan θ</td>
-                    <td>(গ) cos θ</td>
-                    <td>(ঘ) sin θ</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 9 -->
-        <div class="mcq-item">
-            <div class="mcq-question">৯. cos<sup>2</sup> θ - sin<sup>2</sup> θ = 1/3 হলে cos<sup>4</sup> θ - sin<sup>4</sup> θ = কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) 1</td>
-                    <td>(খ) 1/3</td>
-                    <td>(গ) 3</td>
-                    <td>(ঘ) 2</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MCQ 10 -->
-        <div class="mcq-item">
-            <div class="mcq-question">১০. cosec θ = a/b হলে tan θ এর মান কত?</div>
-            <table class="mcq-options">
-                <tr>
-                    <td>(ক) b / √(a<sup>2</sup> - b<sup>2</sup>)</td>
-                    <td>(খ) √(a<sup>2</sup> - b<sup>2</sup>) / a</td>
-                    <td>(গ) √(a<sup>2</sup> + b<sup>2</sup>) / b</td>
-                    <td>(ঘ) b / √(a<sup>2</sup> + b<sup>2</sup>)</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- Section 2: Short Questions -->
-    <div class="section-header">খ-বিভাগ: সংক্ষিপ্ত প্রশ্ন (Short Questions) [মান: ৫ × ২ = ১০]</div>
-    <div style="font-size: 9.5pt; color: #475569; margin-bottom: 8px;">* সংক্ষেপে সকল প্রশ্নের উত্তর দাও:</div>
-
-    <div class="short-q-item">
-        <strong>১.</strong> x + y = 6 এবং x - y = 2 হলে, xy এর মান নির্ণয় কর। <span style="float: right;">[২]</span>
-    </div>
-    <div class="short-q-item">
-        <strong>২.</strong> একটি সমকোণী ত্রিভুজের অতিভুজ 13 সে.মি. এবং এক বাহু 5 সে.মি. হলে, অপর বাহুর দৈর্ঘ্য কত? <span style="float: right;">[২]</span>
-    </div>
-    <div class="short-q-item">
-        <strong>৩.</strong> θ = 30° হলে, (1 - tan<sup>2</sup> θ) / (1 + tan<sup>2</sup> θ) এর মান নির্ণয় কর। <span style="float: right;">[২]</span>
-    </div>
-    <div class="short-q-item">
-        <strong>৪.</strong> 2<sup>2x+1</sup> = 128 হলে, x এর মান কত? <span style="float: right;">[২]</span>
-    </div>
-    <div class="short-q-item">
-        <strong>৫.</strong> sec θ + tan θ = 5/2 হলে, sec θ - tan θ এর মান নির্ণয় কর। <span style="float: right;">[২]</span>
-    </div>
-
-    <!-- Section 3: Creative Questions -->
-    <div class="section-header">গ-বিভাগ: সৃজনশীল প্রশ্ন (Creative Questions) [মান: ৩ × ১০ = ৩০]</div>
-    <div style="font-size: 9.5pt; color: #475569; margin-bottom: 10px;">* যেকোনো তিনটি প্রশ্নের উত্তর দাও (প্রতিটি প্রশ্নের মান: ক-২, খ-৪, গ-৪):</div>
-
-    <!-- CQ 1 -->
-    <div class="cq-item">
-        <div style="font-weight: bold; margin-bottom: 4px; color: #1e3a8a;">প্রশ্ন ১ (বীজগণিত - মুদ্রা সংক্রান্ত):</div>
-        <div class="cq-stem">
-            উদ্দীপক: ১২০ টি ২৫ পয়সার মুদ্রা ও ১০ পয়সার মুদ্রা একত্রে ২৭ টাকা।
-        </div>
-        <div class="cq-questions">
-            <div class="cq-sub-q">(ক) ২৫ পয়সার মুদ্রা সংখ্যা x হলে মোট মুদ্রার মান x এর মাধ্যমে প্রকাশ কর। <span style="float: right;">[২]</span></div>
-            <div class="cq-sub-q">(খ) কোন প্রকারের মুদ্রার সংখ্যা কত নির্ণয় কর। <span style="float: right;">[৪]</span></div>
-            <div class="cq-sub-q">(গ) মুদ্রার সংখ্যা অপরিবর্তিত রেখে ২৫ পয়সার স্থলে এক টাকা এবং ১০ পয়সার স্থলে দুই টাকা ধরলে মোট ১৮০ টাকা হয়। তাহলে কোন প্রকারের মুদ্রার অর্থের পরিমাণ কত হবে? <span style="float: right;">[৪]</span></div>
-        </div>
-    </div>
-
-    <!-- CQ 2 -->
-    <div class="cq-item">
-        <div style="font-weight: bold; margin-bottom: 4px; color: #1e3a8a;">প্রশ্ন ২ (বীজগণিত - কলম ক্রয় ও মুনাফা):</div>
-        <div class="cq-stem">
-            উদ্দীপক: কমল ১২৬০ টাকায় কতগুলো কলম ক্রয় করে দেখলো যে, সে যদি একটি কলম বেশি পেত তবে প্রত্যেকটি কলমের ক্রয় মূল্য গড়ে এক টাকা কম পড়ত।
-        </div>
-        <div class="cq-questions">
-            <div class="cq-sub-q">(ক) 3<sup>x</sup> = 6561 হলে x এর মান কত? <span style="float: right;">[২]</span></div>
-            <div class="cq-sub-q">(খ) কমল কতটি কলম ক্রয় করেছিল? <span style="float: right;">[৪]</span></div>
-            <div class="cq-sub-q">(গ) কমল যদি কলম না কিনে ১০% মুনাফা হারে উত্তরা ব্যাংকে পাঁচ বৎসরের জন্য বিনিয়োগ করত তবে চক্রবৃদ্ধি মুনাফা, সরল মুনাফার চেয়ে কত টাকা বেশি হতো? <span style="float: right;">[৪]</span></div>
-        </div>
-    </div>
-
-    <!-- CQ 3 -->
-    <div class="cq-item">
-        <div style="font-weight: bold; margin-bottom: 4px; color: #1e3a8a;">প্রশ্ন ৩ (ত্রিকোণমিতি - জ্যামিতিক চিত্র):</div>
-        <div class="cq-stem">
-            উদ্দীপক: নিচের চিত্রটি লক্ষ্য কর:
-            <div class="diagram-container">
-                <svg width="280" height="150" viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Parallel line DM -->
-                    <line x1="30" y1="30" x2="250" y2="30" stroke="#0f172a" stroke-width="2"/>
-                    <text x="20" y="35" font-family="sans-serif" font-size="14" font-weight="bold">D</text>
-                    <text x="175" y="22" font-family="sans-serif" font-size="14" font-weight="bold">C</text>
-                    <text x="255" y="35" font-family="sans-serif" font-size="14" font-weight="bold">M</text>
-
-                    <!-- Horizontal line AB -->
-                    <line x1="50" y1="130" x2="250" y2="130" stroke="#0f172a" stroke-width="2"/>
-                    <text x="40" y="145" font-family="sans-serif" font-size="14" font-weight="bold">A</text>
-                    <text x="175" y="145" font-family="sans-serif" font-size="14" font-weight="bold">B</text>
-
-                    <!-- Vertical line BC -->
-                    <line x1="175" y1="30" x2="175" y2="130" stroke="#0f172a" stroke-width="2"/>
-
-                    <!-- Slant line AC -->
-                    <line x1="55" y1="130" x2="175" y2="30" stroke="#0f172a" stroke-width="2"/>
-
-                    <!-- Right angle box at B -->
-                    <rect x="162" y="117" width="13" height="13" fill="none" stroke="#0f172a" stroke-width="1.5"/>
-
-                    <!-- Length labels -->
-                    <text x="105" y="72" font-family="sans-serif" font-size="14" font-weight="bold">5</text>
-                    <text x="185" y="85" font-family="sans-serif" font-size="14" font-weight="bold">3</text>
-
-                    <!-- Angle theta arc -->
-                    <path d="M 145,30 A 30,30 0 0,0 156,48" fill="none" stroke="#0f172a" stroke-width="1.5"/>
-                    <text x="132" y="44" font-family="sans-serif" font-size="14" font-style="italic">θ</text>
-
-                    <!-- Angle alpha arc -->
-                    <path d="M 160,43 A 30,30 0 0,0 175,60" fill="none" stroke="#0f172a" stroke-width="1.5"/>
-                    <text x="160" y="62" font-family="sans-serif" font-size="14" font-style="italic">α</text>
-                </svg>
+        <!-- TYPE 1: Card-Based Multiple Choice -->
+        <div class="question-card">
+            <div class="question-title">1. What is the value of x if 2x + 5 = 15?</div>
+            <div class="grid-options">
+                <label class="radio-card">
+                    <input type="radio" name="q1" value="5">
+                    <span>A. 5</span>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="q1" value="10">
+                    <span>B. 10</span>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="q1" value="15">
+                    <span>C. 15</span>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="q1" value="20">
+                    <span>D. 20</span>
+                </label>
             </div>
         </div>
-        <div class="cq-questions">
-            <div class="cq-sub-q">(ক) C কোণের ত্রিকোণমিতিক অনুপাতগুলো লেখ। <span style="float: right;">[২]</span></div>
-            <div class="cq-sub-q">(খ) প্রদত্ত তথ্যের আলোকে প্রমাণ কর যে, √[ (sec A + 1) / (sec A - 1) ] = cot A + cosec A <span style="float: right;">[৪]</span></div>
-            <div class="cq-sub-q">(গ) (cot θ + cot α) / (cot θ - cot α) এর মান নির্ণয় কর। <span style="float: right;">[৪]</span></div>
-        </div>
-    </div>
 
-    <!-- CQ 4 -->
-    <div class="cq-item">
-        <div style="font-weight: bold; margin-bottom: 4px; color: #1e3a8a;">প্রশ্ন ৪ (ত্রিকোণমিতি - অভেদাবালী):</div>
-        <div class="cq-stem">
-            উদ্দীপক: cos<sup>2</sup> θ + cos<sup>4</sup> θ = 1
+        <!-- TYPE 2: Multi-Select Tags (Pills) -->
+        <div class="question-card">
+            <div class="question-title">2. Select all prime numbers from the list below:</div>
+            <div class="pill-group">
+                <label class="pill-checkbox">
+                    <input type="checkbox" name="q2" value="2">
+                    <span class="pill-label">2</span>
+                </label>
+                <label class="pill-checkbox">
+                    <input type="checkbox" name="q2" value="4">
+                    <span class="pill-label">4</span>
+                </label>
+                <label class="pill-checkbox">
+                    <input type="checkbox" name="q2" value="7">
+                    <span class="pill-label">7</span>
+                </label>
+                <label class="pill-checkbox">
+                    <input type="checkbox" name="q2" value="9">
+                    <span class="pill-label">9</span>
+                </label>
+                <label class="pill-checkbox">
+                    <input type="checkbox" name="q2" value="11">
+                    <span class="pill-label">11</span>
+                </label>
+            </div>
         </div>
-        <div class="cq-questions">
-            <div class="cq-sub-q">(ক) দেখাও যে, cos<sup>2</sup> θ / (1 + cos<sup>2</sup> θ) = (1 + cos θ)(1 - cos θ) <span style="float: right;">[২]</span></div>
-            <div class="cq-sub-q">(খ) প্রমাণ কর যে, cot<sup>4</sup> θ - cot<sup>2</sup> θ = 1 <span style="float: right;">[৪]</span></div>
-            <div class="cq-sub-q">(গ) দেখাও যে, tan<sup>4</sup> θ + tan<sup>2</sup> θ = 1 এবং sin<sup>4</sup> θ + sin<sup>2</sup> θ = 1 <span style="float: right;">[৪]</span></div>
+
+        <!-- TYPE 3: Toggle Switch (True/False) -->
+        <div class="question-card">
+            <div class="question-title">3. The sum of angles in a triangle is always 180 degrees.</div>
+            <div class="toggle-wrapper">
+                <span style="font-weight: 500;">Select True or False</span>
+                <label class="switch">
+                    <input type="checkbox" name="q3" value="True">
+                    <span class="slider"></span>
+                </label>
+            </div>
         </div>
-    </div>
+
+        <!-- TYPE 4: Range Slider -->
+        <div class="question-card">
+            <div class="question-title">4. On a scale of 1 to 10, how confident are you in solving quadratic equations?</div>
+            <div class="range-container">
+                <input type="range" name="q4" min="1" max="10" value="5" id="confidence-slider">
+                <div class="range-values">
+                    <span>1 (Not confident)</span>
+                    <span id="slider-output">Value: 5</span>
+                    <span>10 (Expert)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TYPE 5: Modern Text Input -->
+        <div class="question-card">
+            <div class="question-title">5. Write the formula for the area of a circle.</div>
+            <div class="input-group">
+                <input type="text" name="q5" class="modern-input" placeholder="Type your answer here..." required>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Assessment</button>
+    </form>
+</div>
+
+<script>
+    // Script to add active styling to radio cards when clicked
+    const radioInputs = document.querySelectorAll('input[type="radio"]');
+    
+    radioInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            // Remove 'active' class from all cards in the same group
+            const groupName = this.name;
+            const sameGroupInputs = document.querySelectorAll(`input[name="${groupName}"]`);
+            
+            sameGroupInputs.forEach(siblingInput => {
+                siblingInput.closest('.radio-card').classList.remove('active');
+            });
+            
+            // Add 'active' class to the clicked card
+            if (this.checked) {
+                this.closest('.radio-card').classList.add('active');
+            }
+        });
+    });
+
+    // Script to dynamically update range slider text
+    const slider = document.getElementById("confidence-slider");
+    const output = document.getElementById("slider-output");
+    
+    slider.oninput = function() {
+        output.innerHTML = "Value: " + this.value;
+    }
+
+    // Prevent default submit for demonstration (Remove when adding actual backend)
+    document.getElementById('modern-quiz').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Form submitted successfully! (Connect to a backend to save responses)');
+    });
+</script>
 
 </body>
 </html>
